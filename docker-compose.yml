@@ -1,0 +1,164 @@
+version: '3'
+
+# Define services
+services:
+
+    git:
+        image: "git"
+        container_name: git
+        environment:
+            DISPLAY: '192.168.1.69:0'
+
+    apache_spark:
+        image: "jupyter/pyspark-notebook"
+        ports:
+            - 8885:8888
+        volumes:
+            - .:/spark
+
+
+    markdown:
+        image: "v4tech/markdown-editor"
+        ports:
+            - 80:80
+
+    rstudio:
+        image: "rocker/verse"
+        ports: 
+            - 8787:8787
+
+    sonar:
+        image: "sonarqube"
+        container_name: sonarcloud
+        ports:
+            - 9000:9000
+        volumes:
+            - .:/sonar
+
+    vscode:
+        image: "vscode"
+        container_name: vscode
+        ports: 
+            - 8443:8443
+            - 8882:8888
+        
+
+    orange:
+        image: "acopar/orange-docker"
+        container_name: orange-app
+        ports: 
+            - 6901:6901
+            - 5901:5901
+
+    spyder:
+        image: "compdatasci/spyder-desktop"
+        container_name: spyder-desktop
+        ports:
+            - 6080:6080
+        command: python spyder_desktop.py -p
+        
+
+    #Jupyter Notebook
+    jupyter-notebook:
+        image: "jupyter/scipy-notebook:latest"
+        container_name: jupyter
+        ports: 
+            - 8888:8888
+        volumes: 
+            - .:/code
+        command: jupyter notebook --allow-root --ip=0.0.0.0 --port=8888 --NotebookApp.token='' --NotebookApp.password=''
+        environment:
+            JUPYTER_ENABLE_LAB: 'yes'
+ 
+            
+    tensorflow:
+        image: "tensorflow/tensorflow:latest-py3-jupyter"
+        container_name: tensorflow
+        ports:
+            - 8887:8888
+        volumes:
+            - .:/app
+    
+    #Apache Hadoop
+    namenode:
+        image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+        container_name: namenode
+        restart: always
+        ports:
+            - 9870:9870
+            - 9003:9000
+        volumes:
+            - hadoop_namenode:/hadoop/dfs/name
+        environment:
+            - CLUSTER_NAME=test
+        env_file:
+            - ./hadoop.env
+    
+    datanode:
+        image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+        container_name: datanode
+        restart: always
+        volumes:
+            - hadoop_datanode:/hadoop/dfs/data
+        environment:
+            SERVICE_PRECONDITION: "namenode:9870"
+        env_file:
+            - ./hadoop.env
+        
+    resourcemanager:
+        image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8
+        container_name: resourcemanager
+        restart: always
+        environment:
+            SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
+        env_file:
+            - ./hadoop.env
+    
+    nodemanager1:
+        image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8
+        container_name: nodemanager
+        restart: always
+        environment:
+            SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
+        env_file:
+            - ./hadoop.env
+        
+    historyserver:
+        image: bde2020/hadoop-historyserver:2.0.0-hadoop3.2.1-java8
+        container_name: historyserver
+        restart: always
+        environment:
+            SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
+        volumes:
+            - hadoop_historyserver:/hadoop/yarn/timeline
+        env_file:
+            - ./hadoop.env
+     
+    
+    data-science-toolbox:
+        image: "flaskapp"
+        container_name: toolbox
+        environment:
+            DISPLAY: '192.168.1.69:0'
+        ports:
+            - 5000:5000
+        depends_on:
+            - jupyter-notebook
+            - spyder
+            - orange
+            - tensorflow
+            - vscode
+        links:
+            - jupyter-notebook
+            - spyder
+            - orange
+            - tensorflow
+            - vscode
+        
+    
+
+volumes:
+    jupyter_scipy:
+    hadoop_namenode:
+    hadoop_datanode:
+    hadoop_historyserver:

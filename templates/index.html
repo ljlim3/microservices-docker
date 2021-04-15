@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Data Science Toolbox</title>
+        <link rel="stylesheet" href="static/style.css" />
+       
+    </head>
+    <body>
+        <h1>Welcome to the Data Science Toolbox!</h1>
+        <div class="options">
+            <button class="btn rstudio">RStudio</button>
+            <button class="btn spyder">Spyder</button>
+            <button class="btn sas">IBM SAS</button>
+            <button class="btn git"><a href="{{ url_for('run_script') }}">Git</a></button>
+            <button class="btn jupyter">Jupyter Notebook</button>
+            <button class="btn orange">Orange</button>
+            <button class="btn vscode">Visual Studio Code IDE</button>
+            <button class="btn hadoop">Apache Hadoop</button>
+            <button class="btn apache-spark">Apache Spark</button>
+            <button class="btn tableau">Tableau</button>
+            <button class="btn sonar">SonarQube & SonarScanner</button>
+            <button class="btn tensorflow">Tensorflow</button>
+            <button class="btn markdown">Markdown</button>
+        </div>
+
+        <script>
+            let jupyterBtn = document.querySelector('.jupyter');
+            let spyderBtn = document.querySelector('.spyder');
+            let orangeBtn = document.querySelector('.orange');
+            let tensorflowBtn = document.querySelector('.tensorflow');
+            let vscodeBtn = document.querySelector('.vscode');
+            let sonarBtn = document.querySelector('.sonar');
+            let gitBtn = document.querySelector('.git');
+            let rstudioBtn = document.querySelector('.rstudio');
+            let markdownBtn = document.querySelector('.markdown');
+            let apacheSparkBtn = document.querySelector('.apache-spark');
+            let sasBtn = document.querySelector('.sas');
+            let tableauBtn = document.querySelector('.tableau');
+            let hadoopBtn = document.querySelector('.hadoop');
+
+            if(jupyterBtn) {
+                jupyterBtn.addEventListener('click', () => {
+                    window.open("http://127.0.0.1:8888/lab?", '_blank');
+                    console.log("Hello");
+                })
+            }
+            spyderBtn.addEventListener('click', () => {
+                window.open("https://mybinder.org/v2/gh/spyder-ide/spyder/4.x?urlpath=/desktop", '_blank');
+            })
+            orangeBtn.addEventListener('click', () => {
+                window.open("http://127.0.0.1:6901/", '_blank');
+            })
+            tensorflowBtn.addEventListener('click', () => {
+                window.open("http://127.0.0.1:8887/", '_blank');
+            })
+            vscodeBtn.addEventListener('click', () => {
+                window.open("http://127.0.0.1:8443/", '_blank');
+            })
+            sonarBtn.addEventListener('click', () => {
+                window.open("http://127.0.0.1:9000/", '_blank');
+            })
+            gitBtn.addEventListener('click', () => {
+                // window.open("file:///usr/share/applications/xterm.desktop");
+                window.open("/usr/bin/xterm");
+                // window.open("http://127.0.0.1:5900/", '_blank');
+            })
+            rstudioBtn.addEventListener('click', () => {
+                window.open("http://127.0.0.1:8787/", '_blank');
+            })
+            markdownBtn.addEventListener('click', () => {
+                window.open("http://127.0.0.1:80/", '_blank');
+            })
+            apacheSparkBtn.addEventListener('click', () => {
+                window.open("http://127.0.0.1:8885/", '_blank');
+            })
+            sasBtn.addEventListener('click', () => {
+                window.open("https://welcome.oda.sas.com/login", '_blank');
+            })
+            tableauBtn.addEventListener('click', () => {
+                window.open("https://sso.online.tableau.com/", '_blank');
+            })
+            hadoopBtn.addEventListener('click', () => {
+                window.open("http://127.0.0.1:9870/", '_blank');
+            })
+        
+        </script>
+    </body>
+</html>

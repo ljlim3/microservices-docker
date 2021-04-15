@@ -12,3 +12,6 @@ Note: For Apache Spark (pyspark): On the top right of the Jupiter notebook, clic
 Note: For TensorFlow and Apache Spark, copy the tokens from the terminal. 
 Note: Git will open up automatically upon build.
 12. Run ctrl-C to exit the program.
+
+
+Recording: https://youtu.be/u3wqcgM6zyI
